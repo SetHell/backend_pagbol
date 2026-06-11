@@ -10,15 +10,9 @@ export const databaseConfig = (
   username: config.get<string>('DB_USER'),
   password: config.get<string>('DB_PASS'),
   database: config.get<string>('DB_NAME'),
-
   autoLoadEntities: true,
   synchronize: false,
-
   extra: {
-    connectionLimit: 1,
-    queueLimit: 0,
+    connectionLimit: 2,
   },
-
-  retryAttempts: 1,
-  retryDelay: 3000,
 });
