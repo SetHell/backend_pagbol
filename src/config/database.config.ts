@@ -12,4 +12,9 @@ export const databaseConfig = (
   database: config.get<string>('DB_NAME'),
   autoLoadEntities: true,
   synchronize: false,
+  extra: {
+    connectionLimit: 1,
+  },
+  retryAttempts: 2,
+  retryDelay: 2000,
 });
