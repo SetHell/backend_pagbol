@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const obtenerOrigenesPermitidos = () => {
   const origenes = [
     'http://localhost:5173',
@@ -22,7 +23,11 @@ async function bootstrap() {
   app.use(helmet());
 
   app.enableCors({
-    origin: obtenerOrigenesPermitidos(),
+    origin: [
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'https://frontend-pagbol.vercel.app',
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
