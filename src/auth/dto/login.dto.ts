@@ -10,4 +10,8 @@ export class LoginDto {
   @IsNotEmpty()
   @MaxLength(100)
   password!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  captchaToken!: string;
 }
