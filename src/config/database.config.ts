@@ -14,5 +14,7 @@ export const databaseConfig = (
   synchronize: false,
   extra: {
     connectionLimit: 2,
+    waitForConnections: true,
+    queueLimit: 0,
   },
 });
