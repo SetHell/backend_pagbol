@@ -3,19 +3,15 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import * as bcrypt from 'bcrypt';
-
 import { Repository } from 'typeorm';
-
 import { Agente } from '../agentes/agente.entity';
 import { Persona } from '../personas/persona.entity';
-
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { LogAccesoService } from '../logs-acceso/logs-acceso.service';
 
 type JwtPayload = {
   sub: string;
@@ -33,7 +29,7 @@ type AgenteLogin = {
 
 type LoginResponse = {
   token: string;
-  agente: AgenteLogin;
+  agent: AgenteLogin;
 };
 
 @Injectable()
@@ -46,9 +42,14 @@ export class AuthService {
     private readonly personaRepo: Repository<Persona>,
 
     private readonly jwtService: JwtService,
+    private readonly logService: LogAccesoService,
   ) {}
 
-  async login(dto: LoginDto): Promise<LoginResponse> {
+  async login(
+    dto: LoginDto,
+    ip: string,
+    browser: string,
+  ): Promise<LoginResponse> {
     const agente = await this.agenteRepo
       .createQueryBuilder('agente')
       .addSelect('agente.password')
@@ -79,16 +80,22 @@ export class AuthService {
     };
 
     const token = await this.jwtService.signAsync(payload);
+    await this.logService.registrar(agente.nro_esclf, ip, 'ingreso', browser);
 
     return {
       token,
-      agente: {
+      agent: {
         nro_esclf: agente.nro_esclf,
         CI: agente.CI,
         grado: agente.grado,
         persona: agente.persona,
       },
     };
+  }
+
+  async logout(nro_esclf: string, ip: string, browser: string) {
+    await this.logService.registrar(nro_esclf, ip, 'salida', browser);
+    return { mensaje: 'Sesión cerrada' };
   }
 
   async register(dto: RegisterDto) {

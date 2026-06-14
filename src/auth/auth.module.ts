@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Persona } from '../personas/persona.entity';
-
+import { LogAccesoModule } from '../logs-acceso/logs-acceso.module';
 import { Agente } from '../agentes/agente.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -15,7 +15,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     ConfigModule,
     TypeOrmModule.forFeature([Agente, Persona]),
     PassportModule,
-
+    LogAccesoModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
