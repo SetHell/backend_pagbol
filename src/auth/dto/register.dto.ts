@@ -30,11 +30,8 @@ export class RegisterDto {
   @MinLength(6)
   @MaxLength(100)
   password!: string;
-<<<<<<< HEAD
 
   @IsString()
   @IsNotEmpty()
   captchaToken!: string;
-=======
->>>>>>> 1c877b4c009e88c11a97ad4380371a298eb513db
 }
