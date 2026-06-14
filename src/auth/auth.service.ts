@@ -29,7 +29,7 @@ type AgenteLogin = {
 
 type LoginResponse = {
   token: string;
-  agent: AgenteLogin;
+  agente: AgenteLogin;
 };
 
 @Injectable()
@@ -84,7 +84,7 @@ export class AuthService {
 
     return {
       token,
-      agent: {
+      agente: {
         nro_esclf: agente.nro_esclf,
         CI: agente.CI,
         grado: agente.grado,
